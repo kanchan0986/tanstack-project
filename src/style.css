@@ -6,3 +6,65 @@ html, body {
     margin: 0;
     padding: 0;
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                    Menu                                    */
+/* -------------------------------------------------------------------------- */
+
+.nav-menu {
+    display: flex;
+    justify-content: center;
+}
+
+.menu {
+    background: gold;
+    color: black;
+    padding: 1rem;
+    margin-right: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    width: 12em;
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.subNav-menu {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.9em;
+}
+
+.sub-menu {
+    background: skyblue;
+    color: black;
+    padding: 0.8rem;
+    margin-right: 1rem;
+    text-decoration: none;
+    display: inline-block;
+    width: 8em;
+    text-align: center;
+    font-size: 1.35rem;
+}
+
+.active {
+    background-color: yellowgreen;
+}
+
+.sub-active {
+    background-color: indigo;
+    color: white;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                    Pages                                   */
+/* -------------------------------------------------------------------------- */
+
+.container {
+    margin-top: 1em;
+    font-size: 1.3rem;
+    padding: 2em;
+}
+
+.heading-center {
+    text-align: center;
+}
