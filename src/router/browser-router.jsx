@@ -10,6 +10,7 @@ import ProjectItem from "../pages/Project/ProjectItem";
 import SpecialTodoList from "../pages/Todo/SpecialTodoList";
 import ProductList from "../pages/Product/ProductList";
 import ProductItem from "../pages/Product/ProductItem";
+import SpecialProjectList from "../pages/Project/SpecialProjectList";
 
 const browserRouter = createBrowserRouter([
     {path: '/', element: <RootLayout />, children: [
@@ -22,7 +23,7 @@ const browserRouter = createBrowserRouter([
         {path: 'project', element: <ProjectLayout />, children: [
             {index: true, element: <ProjectList />},
             {path: ':id', element: <ProjectItem />},
-            {path: 'special', element: <SpecialTodoList />},
+            {path: 'special', element: <SpecialProjectList />},
         ]},
         {path: 'product', element: <Outlet/>, children: [
             {index: true, element: <ProductList />},
