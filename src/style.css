@@ -68,3 +68,81 @@ html, body {
 .heading-center {
     text-align: center;
 }
+
+.list-container {
+    display: flex;
+    align-items: first baseline;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    background-color: peachpuff;
+    color: black;
+    padding: 0.5rem;
+    width: 8em;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.list:hover, .list:active {
+    background-color: palevioletred;
+    color: white;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  Todo List                                 */
+/* -------------------------------------------------------------------------- */
+
+.list-container input {
+    width: 1.5rem;
+}
+
+.todoList-actions {
+    display: flex;
+    margin-left: 1em;
+}
+
+.todoList-actions > button {
+    width: 5em;
+    font-family: inherit;
+    font-size: 1.2rem;
+    margin-left: 2em;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                  Todo Item                                 */
+/* -------------------------------------------------------------------------- */
+
+
+.todo-item h1 {
+    text-transform: capitalize;
+}
+
+.todo-item h3 {
+    font-size: 1.5rem;
+}
+
+.todo-item div {
+    text-transform: capitalize;
+    font-size: 1.4rem;
+    margin-bottom: 2em;
+}
+
+.todo-item a {
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    background-color: peachpuff;
+    color: black;
+    padding: 0.5rem;
+    width: 10em;
+    text-transform: capitalize;
+}
+
+.todo-item a:hover, .todo-item a:active {
+    background-color: palevioletred;
+    color: white;
+}
