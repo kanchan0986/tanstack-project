@@ -42,3 +42,16 @@ export const updateTodoItem = async (todo) => {
     return await request.json()
 }
 
+export const deleteTodoItem = async (todo) => {
+    const request = await fetch(`http://localhost:8080/todos/${todo.id}`, {
+        method: 'Delete',
+        headers: {
+            'Content-Type': 'Application/json'
+        }
+    })
+    if(!request.ok) {
+        //
+    }
+    return await request.json()
+}
+

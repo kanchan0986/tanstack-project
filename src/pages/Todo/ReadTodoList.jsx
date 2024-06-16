@@ -21,7 +21,7 @@ export default function ReadTodoList() {
       </Link>
       <div className="todoList-actions">
         <CheckBox todo={todo} />
-        <DeleteTodoButton />
+        <DeleteTodoButton todo={todo} />
       </div>
     </div>
   ));
@@ -29,7 +29,7 @@ export default function ReadTodoList() {
   return (
     <div className='container'>
       <h1>Read Todo List</h1>
-      {readTodoList}
+      {readTodoList.length > 0 ? readTodoList : 'No Results Found!'}
     </div>
   )
 

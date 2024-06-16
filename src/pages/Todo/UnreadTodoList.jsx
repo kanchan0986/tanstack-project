@@ -22,7 +22,7 @@ export default function UnreadTodoList() {
         </Link>
         <div className="todoList-actions">
           <CheckBox todo={todo} />
-          <DeleteTodoButton/>
+          <DeleteTodoButton todo={todo}/>
         </div>
       </div>
     ));
@@ -31,7 +31,7 @@ export default function UnreadTodoList() {
       <div className='container'>
         <TodoCreationForm />
         <h1>Unread Todo List</h1>
-        {unreadTodoList}
+        {unreadTodoList.length > 0 ? unreadTodoList : 'No Results Found!'}
       </div>
     )
 

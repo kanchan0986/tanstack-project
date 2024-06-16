@@ -19,7 +19,7 @@ export default function TodoList() {
       </Link>
       <div className="todoList-actions">
         <CheckBox todo={todo} />
-        <DeleteTodoButton />
+        <DeleteTodoButton todo={todo} />
       </div>
     </div>
   ));
@@ -28,7 +28,7 @@ export default function TodoList() {
     <div className='container'>
       <TodoCreationForm />
       <h1>TodoList</h1>
-      {todoList}
+      {todoList.length > 0 ? todoList : 'No Results Found!'}
     </div>
   )
 }
