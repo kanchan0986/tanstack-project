@@ -1,6 +1,8 @@
 import { useTodoListQuery } from '../../services/queries'
 import { Link } from 'react-router-dom'
 import { CheckBox } from '../../components/Checkbox/Checkbox'
+import TodoCreationForm from '../../components/TodoCreationForm/TodoCreationForm'
+import DeleteTodoButton from '../../components/DeleteTodoButton/DeleteTodoButton'
 
 export default function TodoList() {
 
@@ -17,13 +19,14 @@ export default function TodoList() {
       </Link>
       <div className="todoList-actions">
         <CheckBox todo={todo} />
-        <button>Delete</button>
+        <DeleteTodoButton />
       </div>
     </div>
   ));
 
   return (
     <div className='container'>
+      <TodoCreationForm />
       <h1>TodoList</h1>
       {todoList}
     </div>

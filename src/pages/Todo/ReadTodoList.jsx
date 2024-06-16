@@ -1,7 +1,8 @@
 import React from 'react'
-import { useSpecialTodoListQuery, useTodoListQuery } from '../../services/queries';
+import { useReadTodoListQueries, useTodoListQuery } from '../../services/queries';
 import { Link } from 'react-router-dom';
 import { CheckBox } from '../../components/Checkbox/Checkbox';
+import DeleteTodoButton from '../../components/DeleteTodoButton/DeleteTodoButton';
 
 export default function ReadTodoList() {
 
@@ -9,7 +10,7 @@ export default function ReadTodoList() {
 
   const checkedTodos = todoListQuery.data?.filter(todo => todo.checked)
 
-  const readTodoListQuery = useSpecialTodoListQuery(checkedTodos)
+  const readTodoListQuery = useReadTodoListQueries(checkedTodos)
 
   if(readTodoListQuery.pending) return <div>Loading...</div>
 
@@ -20,7 +21,7 @@ export default function ReadTodoList() {
       </Link>
       <div className="todoList-actions">
         <CheckBox todo={todo} />
-        <button>Delete</button>
+        <DeleteTodoButton />
       </div>
     </div>
   ));

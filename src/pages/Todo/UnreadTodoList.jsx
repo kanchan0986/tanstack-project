@@ -1,7 +1,9 @@
 import React from 'react'
-import { useTodoListQuery, useSpecialTodoListQuery } from '../../services/queries'
+import { useTodoListQuery, useUnreadTodoListQueries } from '../../services/queries'
 import { Link } from 'react-router-dom'
 import { CheckBox } from '../../components/Checkbox/Checkbox'
+import TodoCreationForm from '../../components/TodoCreationForm/TodoCreationForm'
+import DeleteTodoButton from '../../components/DeleteTodoButton/DeleteTodoButton'
 
 export default function UnreadTodoList() {
 
@@ -9,7 +11,7 @@ export default function UnreadTodoList() {
 
     const checkedTodos = todoListQuery.data?.filter(todo => !todo.checked)
   
-    const unreadTodoListQuery = useSpecialTodoListQuery(checkedTodos)
+    const unreadTodoListQuery = useUnreadTodoListQueries(checkedTodos)
   
     if(unreadTodoListQuery.pending) return <div>Loading...</div>
   
@@ -20,13 +22,14 @@ export default function UnreadTodoList() {
         </Link>
         <div className="todoList-actions">
           <CheckBox todo={todo} />
-          <button>Delete</button>
+          <DeleteTodoButton/>
         </div>
       </div>
     ));
   
     return (
       <div className='container'>
+        <TodoCreationForm />
         <h1>Unread Todo List</h1>
         {unreadTodoList}
       </div>
