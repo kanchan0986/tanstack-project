@@ -157,6 +157,16 @@ html, body {
     margin-left: 1rem;
 }
 
+.tileList-container {
+    display: flex;
+}
+
+.tileList-container .list-container{
+    margin-right: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
 
 /* -------------------------------------------------------------------------- */
 /*                              Create Todo Form                              */
