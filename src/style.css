@@ -165,6 +165,29 @@ html, body {
     margin-right: 1rem;
     display: flex;
     flex-direction: column;
+    border: 1px solid salmon;
+    padding-bottom: 0.5rem;
+}
+
+.tileList-container .list-container .action-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.tileList-container .list-container > .action-container  {
+    width: 100%;
+}
+
+.tileList-container .list-container > .action-container .checkbox {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.tileList-container .list-container > .action-container .submit {
+    display: block;
+    margin-inline: auto;
+    width: 75%;
 }
 
 

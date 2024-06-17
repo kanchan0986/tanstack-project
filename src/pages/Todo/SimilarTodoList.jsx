@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTodoListQuery, useReadTodoListQueries, useUnreadTodoListQueries } from '../../services/queries'
 import { Link } from 'react-router-dom'
+import { CheckBox } from '../../components/Checkbox/Checkbox'
+import DeleteTodoButton from '../../components/DeleteTodoButton/DeleteTodoButton'
 
 export default function SimilarTodoList({ todoItem }) {
 
@@ -22,13 +24,19 @@ export default function SimilarTodoList({ todoItem }) {
         <Link to={`../${todo.id}`} className="list">
           {todo.title}
         </Link>
+        <div className='action-container'>
+            <CheckBox todo={todo}/>
+            <DeleteTodoButton todo={todo} className="submit"/>
+        </div>
       </div>
-    ));
+    ))
+    
+    const filteredTodoList = todoList.filter(item => item.key !== todoItem.id);
 
   return (
     <div className='container'>
         <h1>Similar Todo List:</h1>
-        <div className='tileList-container'>{todoList}</div>
+        <div className='tileList-container'>{filteredTodoList.length ? filteredTodoList : 'No Results Found!'}</div>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { useQueries, useQuery } from "@tanstack/react-query"
+import { keepPreviousData, useQueries, useQuery } from "@tanstack/react-query"
 import { getTodoItem, getTodoList } from "../api/api"
 
 export const useTodoListQuery = () => {
@@ -12,7 +12,7 @@ export const useTodoListQuery = () => {
 export const useTodoItemQuery = (id) => {
     return useQuery({
         queryKey: ['todos', { id }],
-        queryFn: () => getTodoItem(id),
+        queryFn: () => getTodoItem(id)
     })
 }
 
@@ -26,7 +26,8 @@ export const useReadTodoListQueries = (readTodos) => {
             queryKey: ['read-todo', { id: readTodo.id}],
             queryFn: () => getTodoItem(readTodo.id),
             enabled: !!readTodo.id,
-            refetchOnMount: false
+            refetchOnMount: false,
+            keepPreviousData: keepPreviousData
         })),
         combine: (results) => {
             return (
@@ -45,7 +46,8 @@ export const useUnreadTodoListQueries = (unreadTodos) => {
             queryKey: ['unread-todo', { id: unredTodo.id}],
             queryFn: () => getTodoItem(unredTodo.id),
             enabled: !!unredTodo.id,
-            refetchOnMount: false
+            refetchOnMount: false,
+            placeholderData: keepPreviousData
         })),
         combine: (results) => {
             return (
