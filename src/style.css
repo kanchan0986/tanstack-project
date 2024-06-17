@@ -62,7 +62,8 @@ html, body {
 .container {
     margin-top: 1em;
     font-size: 1.3rem;
-    padding: 2em;
+    padding-block: 1rem;
+    padding-inline: 2rem;
 }
 
 .heading-center {
@@ -237,4 +238,19 @@ html, body {
 
 .checkbox label, .checkbox input {
     cursor: pointer;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                                    Home                                    */
+/* -------------------------------------------------------------------------- */
+
+.parallel-query-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 1fr;
+}
+
+.parallel-query-list h2 {
+    text-align: center;
 }
