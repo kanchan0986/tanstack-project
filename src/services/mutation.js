@@ -1,5 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { createTodoItem, deleteTodoItem, updateTodoItem } from "../api/api"
+import { createProjectItem, createTodoItem, deleteProjectItem, deleteTodoItem, updateProjectItem, updateTodoItem } from "../api/api"
+
+
+/* -------------------------------------------------------------------------- */
+/*                                    Todos                                   */
+/* -------------------------------------------------------------------------- */
 
 export const useCreateTodoMutation = () => {
     const queryClient = useQueryClient()
@@ -40,6 +45,57 @@ export const useDeleteTodoMutation = () => {
                 console.log(error.message)
             }else{
                 await queryClient.invalidateQueries({queryKey: ['todos'], exact: true})
+            }
+        }
+    })
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                                  Projects                                  */
+/* -------------------------------------------------------------------------- */
+
+
+export const useCreateProjectMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (project) => createProjectItem({...project, id: crypto.randomUUID()}),
+        onSettled: async (data, error, variables) => {
+            if(error) {
+                console.log(error.message)
+            }else{
+                await queryClient.setQueryData(['projects'], (oldData) => [...oldData, data])
+            }
+        }
+    })
+}
+
+export const useUpdateProjectMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: ({project}) => updateProjectItem({...project, state: !project.state}),
+        onMutate: (variables) => ({labelId: variables.labelId}),
+        onSettled: async (data, error, variables) => {
+            if(error) {
+                console.log(error.message);
+            }else{
+                await queryClient.invalidateQueries({queryKey: ['projects'], exact: true});
+                await queryClient.invalidateQueries({queryKey: ['projects', {id: variables.id}], exact: true});
+            }
+        }
+    })
+}
+
+
+export const useDeleteProjectMutation = () => {
+    const queryClient = useQueryClient()
+    return useMutation({
+        mutationFn: (project) => deleteProjectItem(project),
+        onSettled: async (data, error, variables) => {
+            if(error) {
+                console.log(error.message)
+            }else{
+                await queryClient.invalidateQueries({queryKey: ['projects'], exact: true})
             }
         }
     })

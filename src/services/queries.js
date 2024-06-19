@@ -1,5 +1,10 @@
 import { keepPreviousData, useQueries, useQuery } from "@tanstack/react-query"
-import { getTodoItem, getTodoList } from "../api/api"
+import { getProjectItem, getProjectList, getTodoItem, getTodoList } from "../api/api"
+
+
+/* -------------------------------------------------------------------------- */
+/*                                    Todos                                   */
+/* -------------------------------------------------------------------------- */
 
 export const useTodoListQuery = () => {
     return useQuery({
@@ -16,9 +21,7 @@ export const useTodoItemQuery = (id) => {
     })
 }
 
-/* -------------------------------------------------------------------------- */
-/*                      Dynamic Parallel Queries -- Todos                     */
-/* -------------------------------------------------------------------------- */
+/* -------------------- Dynamic Parallel Queries -- Todos ------------------- */
 
 export const useReadTodoListQueries = (readTodos) => {
     return useQueries({
@@ -57,5 +60,28 @@ export const useUnreadTodoListQueries = (unreadTodos) => {
                 }
             )
         }
+    })
+}
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                  Projects                                  */
+/* -------------------------------------------------------------------------- */
+
+
+export const useProjectListQuery = () => {
+    return useQuery({
+        queryKey: ['projects'],
+        queryFn: getProjectList,
+        refetchOnMount: false
+    })
+}
+
+export const useProjectItemQuery = (id) => {
+    return useQuery({
+        queryKey: ['projects', {id}],
+        queryFn: () => getProjectItem(id),
     })
 }

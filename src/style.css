@@ -114,6 +114,11 @@ html, body {
     cursor: pointer;
 }
 
+.todoList-actions.project-list {
+    display: flex;
+    align-items: center;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                  Todo Item                                 */
 /* -------------------------------------------------------------------------- */
@@ -232,6 +237,11 @@ html, body {
     background-color: indigo;
 }
 
+.project-delete {
+    margin-top: -3em;
+    margin-left: 0 !important;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                  Check Box                                 */
 /* -------------------------------------------------------------------------- */
@@ -239,6 +249,33 @@ html, body {
 .checkbox label, .checkbox input {
     cursor: pointer;
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                    Radio                                   */
+/* -------------------------------------------------------------------------- */
+
+.radio {
+    display: flex;
+    margin-top: -0.8rem;
+}
+
+.radio-types {
+    margin-right: 1.5em;
+}
+
+.radio-types.project-list {
+    margin-right: 0.5rem;
+}
+
+.radio-types label {
+    margin-left: 0.5rem;
+    cursor: pointer;
+}
+
+.radio-types.project-list label {
+    margin-left: 0.3rem;
+}
+
 
 
 /* -------------------------------------------------------------------------- */
@@ -254,3 +291,5 @@ html, body {
 .parallel-query-list h2 {
     text-align: center;
 }
+
+
