@@ -9,7 +9,7 @@ export const CheckBox = ({ todo }) => {
   
     const checkHandler = () => { 
       setIsChecked(prev => !prev)
-      updateTodoItem?.mutate({...todo, checked: !todo.checked})
+      updateTodoItem?.mutate(todo)
      }
   
     return (

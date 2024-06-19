@@ -19,7 +19,7 @@ export const useCreateTodoMutation = () => {
 export const useUpdateTodoMutation = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: (todo) => updateTodoItem(todo),
+        mutationFn: (todo) => updateTodoItem({...todo, checked: !todo.checked}),
         onSettled: async (data, error, variables) => {
             if(error) {
                 console.log(error.message)
