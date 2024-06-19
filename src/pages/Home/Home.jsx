@@ -1,27 +1,54 @@
 import React from 'react'
-import { useTodoListQuery } from '../../services/queries';
+import { useProjectListQuery, useTodoListQuery } from '../../services/queries';
 import { Link } from 'react-router-dom';
 import { CheckBox } from '../../components/Checkbox/Checkbox'
 import DeleteTodoButton from '../../components/DeleteTodoButton/DeleteTodoButton'
+import Radio from '../../components/Radio/Radio';
+import DeleteProjectButton from '../../components/DeleteProjectButton/DeleteProjectButton';
 
 export default function Home() {
 
-  /* ---------------------------------- Todos --------------------------------- */
-
   const todoListQuery = useTodoListQuery()
 
-  if(todoListQuery.isLoading) return <div>Loading...</div>
+  const projectListQuery = useProjectListQuery();
 
-  if(todoListQuery.isError) return <div>{todoListQuery.error.message}</div>
+  if(todoListQuery.isLoading || projectListQuery.isLoading) return <div>Loading...</div>
+
+  if(todoListQuery.isError) {
+    return <div>{todoListQuery.error.message}</div>
+  }else if (projectListQuery.isError) {
+    return <div>{projectListQuery.error.message}</div>
+  }
+
+  /* ---------------------------------- Todos --------------------------------- */
 
   const todoList = todoListQuery.data.map((todo) => (
-    <div key={todo.id} className="list-container">
-      <Link to={`todo/${todo.id}`} className="list">
-        {todo.title}
-      </Link>
-      <div className="todoList-actions">
-        <CheckBox todo={todo} />
-        <DeleteTodoButton todo={todo} />
+    <div key={todo.id} className="list-container todo">
+      <div className="list-background">
+        <Link to={`todo/${todo.id}`} className="list">
+          {todo.title}
+        </Link>
+        <div className="action-container">
+          <CheckBox todo={todo} />
+          <DeleteTodoButton todo={todo} />
+        </div>
+      </div>
+    </div>
+  ));
+
+
+  /* -------------------------------- Projects -------------------------------- */
+
+  const projectList = projectListQuery.data.map((project) => (
+    <div key={project.id} className="list-container project">
+      <div className="list-background">
+        <Link to={`project/${project.id}`} className="list">
+          {project.name}
+        </Link>
+        <div className="action-container">
+          <Radio className='project-list' project={project}/>
+          <DeleteProjectButton project={project} />
+        </div>
       </div>
     </div>
   ));
@@ -34,11 +61,11 @@ export default function Home() {
       <div className='parallel-query-container'>
         <div className='parallel-query-list'>
           <h2>Todo List</h2>
-          {todoList.length > 0 ? todoList : 'No Results Found!'}
+          <div className="parallel-query-row">{todoList.length > 0 ? todoList : 'No Results Found!'}</div>
         </div>
         <div className='parallel-query-list'>
           <h2>Project List</h2>
-          {/* {projectList.length > 0 ? projectList : 'No Results Found!'} */}
+          <div className="parallel-query-row">{projectList.length > 0 ? projectList : 'No Results Found!'}</div>
         </div>
         <div className='parallel-query-list'>
           <h2>Product List</h2>
@@ -48,3 +75,4 @@ export default function Home() {
     </div>
   )
 }
+
