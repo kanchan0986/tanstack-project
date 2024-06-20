@@ -85,3 +85,38 @@ export const useProjectItemQuery = (id) => {
         queryFn: () => getProjectItem(id),
     })
 }
+
+/* -------------------- Dynamic Parallel Queries -- Projects ------------------- */
+
+
+export const useDeliveredProjectListQueries = (projects) => {
+    return useQueries({
+        queries: (projects || []).map(project => ({
+            queryKey: ['delivered-projects', {id: project.id}],
+            queryFn: () => getProjectItem(project.id),
+            enabled: !!project,
+            refetchOnMount: false,
+            placeholderData: keepPreviousData
+        })),
+        combine: (projects) => ({
+            data: projects.map(deliveredProject => deliveredProject.data),
+            pending: projects.some(deliveredProject => deliveredProject.isPending)
+        })
+    })
+}
+
+export const useUndeliveredProjectListQueries = (projects) => {
+    return useQueries({
+        queries: (projects || []).map(project => ({
+            queryKey: ['undelivered-projects', {id: project.id}],
+            queryFn: () => getProjectItem(project.id),
+            enabled: !!project,
+            placeholderData: keepPreviousData,
+            refetchOnMount: false
+        })),
+        combine: (projects) => ({
+            data: projects.map(undeliveredProject => undeliveredProject.data),
+            pending: projects.some(undeliveredProject => undeliveredProject.isPending),
+        })
+    })
+}
