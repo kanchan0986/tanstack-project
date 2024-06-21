@@ -65,9 +65,17 @@ export const deleteTodoItem = async (todo) => {
 /* -------------------------------------------------------------------------- */
 
 
-export const getProjectList = async () => {
-    const request = await fetch('http://localhost:8080/projects')
-    if(!request.ok){
+// export const getProjectList = async () => {
+//     const request = await fetch('http://localhost:8080/projects')
+//     if(!request.ok){
+//         //
+//     }
+//     return await request.json()
+// }
+
+export const getPaginatedProjectList = async ({pageNum, limit}) => {
+    const request = await fetch(`http://localhost:8080/projects?_limit=${limit}&_page=${pageNum}`)
+    if(!request.ok) {
         //
     }
     return await request.json()

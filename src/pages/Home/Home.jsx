@@ -1,5 +1,5 @@
-import React from 'react'
-import { useProjectListQuery, useTodoListQuery } from '../../services/queries';
+import React, {useState} from 'react'
+import { usePaginatedProjectListQuery, useTodoListQuery } from '../../services/queries';
 import { Link } from 'react-router-dom';
 import { CheckBox } from '../../components/Checkbox/Checkbox'
 import DeleteTodoButton from '../../components/DeleteTodoButton/DeleteTodoButton'
@@ -8,16 +8,18 @@ import DeleteProjectButton from '../../components/DeleteProjectButton/DeleteProj
 
 export default function Home() {
 
+  const [pageNum, setPageNum] = useState(1)
+
   const todoListQuery = useTodoListQuery()
 
-  const projectListQuery = useProjectListQuery();
+  const paginatedProjectListQuery = usePaginatedProjectListQuery({pageNum, limit: 4});
 
-  if(todoListQuery.isLoading || projectListQuery.isLoading) return <div>Loading...</div>
+  if(todoListQuery.isLoading || paginatedProjectListQuery.isLoading) return <div>Loading...</div>
 
   if(todoListQuery.isError) {
     return <div>{todoListQuery.error.message}</div>
-  }else if (projectListQuery.isError) {
-    return <div>{projectListQuery.error.message}</div>
+  }else if (paginatedProjectListQuery.isError) {
+    return <div>{paginatedProjectListQuery.error.message}</div>
   }
 
   /* ---------------------------------- Todos --------------------------------- */
@@ -39,19 +41,27 @@ export default function Home() {
 
   /* -------------------------------- Projects -------------------------------- */
 
-  const projectList = projectListQuery.data.map((project) => (
+  const projectList = paginatedProjectListQuery.data.map((project) => (
     <div key={project.id} className="list-container project">
       <div className="list-background">
         <Link to={`project/${project.id}`} className="list">
           {project.name}
         </Link>
         <div className="action-container">
-          <Radio className='project-list' project={project}/>
-          <DeleteProjectButton project={project} />
+          <Radio className='project-list' project={project} pageNum={pageNum} limit={4}/>
+          <DeleteProjectButton project={project} pageNum={pageNum} limit={4} />
         </div>
       </div>
     </div>
   ));
+
+  const prevProjectHandler = () => { 
+    setPageNum(prevPageNum => Math.max(prevPageNum - 1, 0)  )
+  }
+  
+  const nextProjectHandler = () => { 
+     setPageNum(prevPageNum => prevPageNum + 1)
+    }
 
 
 
@@ -66,6 +76,15 @@ export default function Home() {
         <div className='parallel-query-list'>
           <h2>Project List</h2>
           <div className="parallel-query-row">{projectList.length > 0 ? projectList : 'No Results Found!'}</div>
+          <div className="pagination">
+            <div className="button-box">
+              <button className={pageNum <= 1 ? 'submit disabled' : 'submit'} onClick={prevProjectHandler} disabled={pageNum <= 1}>Prev</button>
+              <button className={paginatedProjectListQuery.data.length <=1 ? 'submit disabled' : 'submit'} onClick={nextProjectHandler} disabled={paginatedProjectListQuery.data.length <=1}>Next</button>
+            </div>
+            <div className='loader'>
+              {paginatedProjectListQuery.isFetching && !paginatedProjectListQuery.isFetchedAfterMount && <span>Loading.....</span>}
+            </div>
+          </div>
         </div>
         <div className='parallel-query-list'>
           <h2>Product List</h2>

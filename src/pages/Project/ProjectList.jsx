@@ -1,5 +1,5 @@
-import React from 'react'
-import { useProjectListQuery } from '../../services/queries'
+import React, {useState} from 'react'
+import { usePaginatedProjectListQuery } from '../../services/queries'
 import { Link } from 'react-router-dom';
 import Radio from '../../components/Radio/Radio';
 import DeleteProjectButton from '../../components/DeleteProjectButton/DeleteProjectButton';
@@ -7,29 +7,48 @@ import ProjectCreationForm from '../../components/ProjectCreationForm/ProjectCre
 
 export default function ProjectList() {
 
-  const projectListQuery = useProjectListQuery();
+  const [pageNum, setPageNum] = useState(1)
 
-  if(projectListQuery.isLoading) return <div>Loading...</div>
+  const paginatedProjectListQuery = usePaginatedProjectListQuery({pageNum, limit: 5});
 
-  if(projectListQuery.isError) return <div>{projectListQuery.error.message}</div>
+  if(paginatedProjectListQuery.isLoading) return <div>Loading...</div>
 
-  const projectList = projectListQuery.data.map((project) => (
+  if(paginatedProjectListQuery.isError) return <div>{paginatedProjectListQuery.error.message}</div>
+
+  const projectList = paginatedProjectListQuery.data.map((project) => (
     <div key={project.id} className="list-container">
       <Link to={`${project.id}`} className="list">
         {project.name}
       </Link>
       <div className="todoList-actions project-list">
-        <Radio className='project-list' project={project}/>
-        <DeleteProjectButton project={project} />
+        <Radio className='project-list' project={project} pageNum={pageNum} limit={5}/>
+        <DeleteProjectButton project={project} pageNum={pageNum} limit={5} />
       </div>
     </div>
   ));
 
+  const prevProjectHandler = () => { 
+    setPageNum(prevPageNum => Math.max(prevPageNum - 1, 0)  )
+  }
+  
+  const nextProjectHandler = () => { 
+     setPageNum(prevPageNum => prevPageNum + 1)
+    }
+
   return (
     <div className='container'>
-      <ProjectCreationForm />
+      <ProjectCreationForm  pageNum={pageNum} limit={5}/>
       <h1>Project List</h1>
       {projectList.length > 0 ? projectList : 'No Results Found!'}
+      <div className="pagination">
+        <div className="button-box">
+          <button className={pageNum <= 1 ? 'submit disabled' : 'submit'} onClick={prevProjectHandler} disabled={pageNum <= 1}>Prev</button>
+          <button className={paginatedProjectListQuery.data?.length <=1 ? 'submit disabled' : 'submit'} onClick={nextProjectHandler} disabled={paginatedProjectListQuery.data?.length <=1}>Next</button>
+        </div>
+        <div className='loader'>
+          {paginatedProjectListQuery.isFetching && !paginatedProjectListQuery.isFetchedAfterMount && <span>Loading.....</span>}
+        </div>
+      </div>
     </div>
   )
 }

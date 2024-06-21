@@ -330,4 +330,38 @@ html, body {
     margin-bottom: 1.5em;
 }
 
+.parallel-query-list .parallel-query-row {
+    justify-content: center;
+    margin-bottom: 1em;
+}
+
+
+/* -------------------------------------------------------------------------- */
+/*                                 Pagination                                 */
+/* -------------------------------------------------------------------------- */
+
+
+.pagination {
+
+}
+
+.button-box .submit {
+    margin-right: 1rem;
+}
+
+.button-box .submit.disabled {
+    background: rgb(143, 130, 152);
+    cursor: auto;
+    
+}
+
+.loader {
+    margin-top: 1.5em;
+}
+
+.loader span {
+    font-size: 1.5rem;
+}
+
+
 

@@ -1,5 +1,5 @@
 import { keepPreviousData, useQueries, useQuery } from "@tanstack/react-query"
-import { getProjectItem, getProjectList, getTodoItem, getTodoList } from "../api/api"
+import { getPaginatedProjectList, getProjectItem, getTodoItem, getTodoList } from "../api/api"
 
 
 /* -------------------------------------------------------------------------- */
@@ -30,7 +30,7 @@ export const useReadTodoListQueries = (readTodos) => {
             queryFn: () => getTodoItem(readTodo.id),
             enabled: !!readTodo.id,
             refetchOnMount: false,
-            keepPreviousData: keepPreviousData
+            placeholderData: keepPreviousData
         })),
         combine: (results) => {
             return (
@@ -71,11 +71,19 @@ export const useUnreadTodoListQueries = (unreadTodos) => {
 /* -------------------------------------------------------------------------- */
 
 
-export const useProjectListQuery = () => {
+// export const useProjectListQuery = () => {
+//     return useQuery({
+//         queryKey: ['projects'],
+//         queryFn: getProjectList,
+//         refetchOnMount: false
+//     })
+// }
+
+export const usePaginatedProjectListQuery = ({pageNum, limit}) => {
     return useQuery({
-        queryKey: ['projects'],
-        queryFn: getProjectList,
-        refetchOnMount: false
+        queryKey: ['projects-paginated', {pageNum, limit: limit ? limit : ''}],
+        queryFn: () => getPaginatedProjectList({pageNum, limit}),
+        placeholderData: keepPreviousData
     })
 }
 
@@ -94,9 +102,7 @@ export const useDeliveredProjectListQueries = (projects) => {
         queries: (projects || []).map(project => ({
             queryKey: ['delivered-projects', {id: project.id}],
             queryFn: () => getProjectItem(project.id),
-            enabled: !!project,
-            refetchOnMount: false,
-            placeholderData: keepPreviousData
+            enabled: !!project.id,
         })),
         combine: (projects) => ({
             data: projects.map(deliveredProject => deliveredProject.data),
@@ -110,9 +116,7 @@ export const useUndeliveredProjectListQueries = (projects) => {
         queries: (projects || []).map(project => ({
             queryKey: ['undelivered-projects', {id: project.id}],
             queryFn: () => getProjectItem(project.id),
-            enabled: !!project,
-            placeholderData: keepPreviousData,
-            refetchOnMount: false
+            enabled: !!project.id,
         })),
         combine: (projects) => ({
             data: projects.map(undeliveredProject => undeliveredProject.data),

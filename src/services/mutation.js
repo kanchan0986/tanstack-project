@@ -59,12 +59,13 @@ export const useDeleteTodoMutation = () => {
 export const useCreateProjectMutation = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: (project) => createProjectItem({...project, id: crypto.randomUUID()}),
+        mutationFn: ({project}) => createProjectItem({...project, id: crypto.randomUUID()}),
         onSettled: async (data, error, variables) => {
             if(error) {
                 console.log(error.message)
             }else{
-                await queryClient.setQueryData(['projects'], (oldData) => [...oldData, data])
+                // await queryClient.setQueryData(['projects-paginated', {pageNum: variables.pageNum, limit: variables.limit}], (oldData) => [...oldData, data])
+                await queryClient.invalidateQueries({queryKey: ['projects-paginated', {pageNum: variables.pageNum, limit: variables.limit}], exact: true})
             }
         }
     })
@@ -79,8 +80,8 @@ export const useUpdateProjectMutation = () => {
             if(error) {
                 console.log(error.message);
             }else{
-                await queryClient.invalidateQueries({queryKey: ['projects'], exact: true});
-                await queryClient.invalidateQueries({queryKey: ['projects', {id: variables.id}], exact: true});
+                await queryClient.invalidateQueries({queryKey: ['projects-paginated', {pageNum: variables.pageNum, limit: variables.limit}], exact: true})
+                await queryClient.invalidateQueries({queryKey: ['projects', {id: variables.id}]});
             }
         }
     })
@@ -90,12 +91,12 @@ export const useUpdateProjectMutation = () => {
 export const useDeleteProjectMutation = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: (project) => deleteProjectItem(project),
+        mutationFn: ({project}) => deleteProjectItem(project),
         onSettled: async (data, error, variables) => {
             if(error) {
                 console.log(error.message)
             }else{
-                await queryClient.invalidateQueries({queryKey: ['projects'], exact: true})
+                await queryClient.invalidateQueries({queryKey: ['projects-paginated', {pageNum: variables.pageNum, limit: variables.limit}], exact: true})
             }
         }
     })

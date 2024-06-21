@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { useCreateProjectMutation } from '../../services/mutation';
 
-export default function ProjectCreationForm() {
+export default function ProjectCreationForm(props) {
 
     const [project, setProject] = useState({
         name: '',
@@ -20,7 +20,7 @@ export default function ProjectCreationForm() {
 
      const submitHandler = (event) => { 
         event.preventDefault();
-        createProjectItem.mutate(project)
+        createProjectItem.mutate({ project, pageNum: props.pageNum, limit: props.limit })
         setProject({
             name: '',
             state: false
