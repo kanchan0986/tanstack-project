@@ -20,7 +20,7 @@ export default function ProjectCreationForm(props) {
 
      const submitHandler = (event) => { 
         event.preventDefault();
-        createProjectItem.mutate({ project, pageNum: props.pageNum, limit: props.limit })
+        createProjectItem.mutate( project)
         setProject({
             name: '',
             state: false
@@ -37,9 +37,3 @@ export default function ProjectCreationForm(props) {
     </form>
   )
 }
-
-
-
-/* -------------------------------------------------------------------------- */
-/*                                 Incomplete                                 */
-/* -------------------------------------------------------------------------- */

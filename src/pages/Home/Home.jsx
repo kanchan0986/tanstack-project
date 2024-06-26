@@ -12,7 +12,7 @@ export default function Home() {
 
   const todoListQuery = useTodoListQuery()
 
-  const paginatedProjectListQuery = usePaginatedProjectListQuery({pageNum, limit: 4});
+  const paginatedProjectListQuery = usePaginatedProjectListQuery(pageNum);
 
   if(todoListQuery.isLoading || paginatedProjectListQuery.isLoading) return <div>Loading...</div>
 
@@ -44,12 +44,12 @@ export default function Home() {
   const projectList = paginatedProjectListQuery.data.map((project) => (
     <div key={project.id} className="list-container project">
       <div className="list-background">
-        <Link to={`project/${project.id}`} className="list">
+        <Link to={`project/${project.id}`} state={{pageNum}} className="list">
           {project.name}
         </Link>
         <div className="action-container">
-          <Radio className='project-list' project={project} pageNum={pageNum} limit={4}/>
-          <DeleteProjectButton project={project} pageNum={pageNum} limit={4} />
+          <Radio className='project-list' project={project} pageNum={pageNum}/>
+          <DeleteProjectButton project={project} pageNum={pageNum} />
         </div>
       </div>
     </div>

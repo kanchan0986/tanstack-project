@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createProjectItem, createTodoItem, deleteProjectItem, deleteTodoItem, updateProjectItem, updateTodoItem } from "../api/api"
+import { projectQueryKeyFactory } from "./queries"
 
 
 /* -------------------------------------------------------------------------- */
@@ -59,13 +60,12 @@ export const useDeleteTodoMutation = () => {
 export const useCreateProjectMutation = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: ({project}) => createProjectItem({...project, id: crypto.randomUUID()}),
+        mutationFn: (project) => createProjectItem({...project, id: crypto.randomUUID()}),
         onSettled: async (data, error, variables) => {
             if(error) {
                 console.log(error.message)
             }else{
-                // await queryClient.setQueryData(['projects-paginated', {pageNum: variables.pageNum, limit: variables.limit}], (oldData) => [...oldData, data])
-                await queryClient.invalidateQueries({queryKey: ['projects-paginated', {pageNum: variables.pageNum, limit: variables.limit}], exact: true})
+                await queryClient.invalidateQueries(projectQueryKeyFactory.details())
             }
         }
     })
@@ -75,13 +75,15 @@ export const useUpdateProjectMutation = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: ({project}) => updateProjectItem({...project, state: !project.state}),
-        onMutate: (variables) => ({labelId: variables.labelId}),
+        onMutate: (variables) => ({labelId: variables.labelId, pageNum: variables.pageNum}),
         onSettled: async (data, error, variables) => {
             if(error) {
                 console.log(error.message);
             }else{
-                await queryClient.invalidateQueries({queryKey: ['projects-paginated', {pageNum: variables.pageNum, limit: variables.limit}], exact: true})
-                await queryClient.invalidateQueries({queryKey: ['projects', {id: variables.id}]});
+                await queryClient.invalidateQueries({queryKey: projectQueryKeyFactory.filter(), refetchType: 'active'});
+                await queryClient.invalidateQueries({queryKey: projectQueryKeyFactory.id(data.id), refetchType: 'active'});
+                await queryClient.refetchQueries({queryKey: projectQueryKeyFactory.filter(), type: 'inactive'});
+                await queryClient.refetchQueries({queryKey: projectQueryKeyFactory.id(data.id), type: 'inactive'});
             }
         }
     })
@@ -91,12 +93,13 @@ export const useUpdateProjectMutation = () => {
 export const useDeleteProjectMutation = () => {
     const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: ({project}) => deleteProjectItem(project),
+        mutationFn: (project) => deleteProjectItem(project),
         onSettled: async (data, error, variables) => {
             if(error) {
                 console.log(error.message)
             }else{
-                await queryClient.invalidateQueries({queryKey: ['projects-paginated', {pageNum: variables.pageNum, limit: variables.limit}], exact: true})
+                await queryClient.invalidateQueries({queryKey: projectQueryKeyFactory.filter(), refetchType: 'all'});
+                await queryClient.refetchQueries({queryKey: projectQueryKeyFactory.filter(), type: 'inactive'});
             }
         }
     })

@@ -3,16 +3,18 @@ import { useUpdateProjectMutation } from '../../services/mutation'
 
 export default function Radio(props) {
 
-    const {project, className, pageNum, limit } = props
+    const {project, className, pageNum } = props
 
     const [isDelivered, setIsDelivered] = useState(JSON.stringify(project.state))
-
+    
     const updateProjectMutation = useUpdateProjectMutation()
-
+    
     const changeHandler = (event) => {
         setIsDelivered(event.target.value)
-        updateProjectMutation.mutate({project, pageNum, limit, labelId: event.target.id })
+        updateProjectMutation.mutate({project, labelId: event.target.id, pageNum: pageNum })
     }
+
+
 
   return (
     <div className='radio'>

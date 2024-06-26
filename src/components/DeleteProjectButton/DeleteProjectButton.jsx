@@ -6,7 +6,7 @@ export default function DeleteProjectButton(props) {
     const deleteProjectMutation = useDeleteProjectMutation()
 
     const deleteProjectHandler = () => { 
-        deleteProjectMutation.mutate({project: props.project, pageNum: props.pageNum, limit: props.limit})
+        deleteProjectMutation.mutate(props.project)
      }
 
   return (

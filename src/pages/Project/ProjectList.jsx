@@ -9,7 +9,7 @@ export default function ProjectList() {
 
   const [pageNum, setPageNum] = useState(1)
 
-  const paginatedProjectListQuery = usePaginatedProjectListQuery({pageNum, limit: 5});
+  const paginatedProjectListQuery = usePaginatedProjectListQuery(pageNum);
 
   if(paginatedProjectListQuery.isLoading) return <div>Loading...</div>
 
@@ -17,12 +17,12 @@ export default function ProjectList() {
 
   const projectList = paginatedProjectListQuery.data.map((project) => (
     <div key={project.id} className="list-container">
-      <Link to={`${project.id}`} className="list">
+      <Link to={`${project.id}`} state={{pageNum}} className="list">
         {project.name}
       </Link>
       <div className="todoList-actions project-list">
-        <Radio className='project-list' project={project} pageNum={pageNum} limit={5}/>
-        <DeleteProjectButton project={project} pageNum={pageNum} limit={5} />
+        <Radio className='project-list' project={project} pageNum={pageNum} />
+        <DeleteProjectButton project={project} />
       </div>
     </div>
   ));
@@ -35,9 +35,11 @@ export default function ProjectList() {
      setPageNum(prevPageNum => prevPageNum + 1)
     }
 
+  
+
   return (
     <div className='container'>
-      <ProjectCreationForm  pageNum={pageNum} limit={5}/>
+      <ProjectCreationForm />
       <h1>Project List</h1>
       {projectList.length > 0 ? projectList : 'No Results Found!'}
       <div className="pagination">
