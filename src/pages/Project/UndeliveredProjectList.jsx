@@ -7,7 +7,7 @@ import ProjectCreationForm from '../../components/ProjectCreationForm/ProjectCre
 
 export default function UndeliveredProjectList() {
 
-  const paginatedProjectListQuery = usePaginatedProjectListQuery({pageNum: 1, limit: 100000 });
+  const paginatedProjectListQuery = usePaginatedProjectListQuery({pageNum: 1, limit: 10000000 });
 
   const undeliveredProjectListQuery = paginatedProjectListQuery.data?.filter(project => project.state === false)
 

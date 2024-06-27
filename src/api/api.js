@@ -66,7 +66,7 @@ export const deleteTodoItem = async (todo) => {
 
 
 export const getPaginatedProjectList = async (pageNum, limit) => {
-    const request = await fetch(`http://localhost:8080/projects?_page=${pageNum}${!limit <= 0 ? `&_limit=${limit}` : '' }`)
+    const request = await fetch(`http://localhost:8080/projects?_page=${pageNum}&_limit=${limit}`)
     if(!request.ok) {
         //
     }

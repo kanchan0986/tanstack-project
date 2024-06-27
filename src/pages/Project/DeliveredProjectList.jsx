@@ -6,7 +6,7 @@ import DeleteProjectButton from '../../components/DeleteProjectButton/DeleteProj
 
 export default function DeliveredProjectList() {
 
-  const paginatedProjectListQuery = usePaginatedProjectListQuery({pageNum: 1, limit: 0});
+  const paginatedProjectListQuery = usePaginatedProjectListQuery({pageNum: 1, limit: 10000000});
 
   const deliveredProjectListQuery = paginatedProjectListQuery.data?.filter(project => project.state === true)
 

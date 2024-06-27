@@ -85,7 +85,6 @@ export const usePaginatedProjectListQuery = ({pageNum, limit}) => {
         queryKey: projectQueryKeyFactory.type(pageNum, limit),
         queryFn: () => getPaginatedProjectList(pageNum, limit),
         placeholderData: keepPreviousData,
-        refetchOnMount: false
     })
 }
 
@@ -105,9 +104,7 @@ export const useDeliveredProjectListQueries = (projects) => {
         queries: (projects || []).map(project => ({
             queryKey: projectQueryKeyFactory.id(project.id),
             queryFn: () => getProjectItem(project.id),
-            enabled: !!project.id,
-            placeholderData: keepPreviousData,
-            refetchOnMount: false
+            refetchOnMount: false,
         })),
         combine: (projects) => ({
             data: projects.map(deliveredProject => deliveredProject.data),
@@ -121,9 +118,7 @@ export const useUndeliveredProjectListQueries = (projects) => {
         queries: (projects || []).map(project => ({
             queryKey: projectQueryKeyFactory.id(project.id),
             queryFn: () => getProjectItem(project.id),
-            enabled: !!project.id,
-            placeholderData: keepPreviousData,
-            refetchOnMount: false
+            refetchOnMount: false,       
         })),
         combine: (projects) => ({
             data: projects.map(undeliveredProject => undeliveredProject.data),

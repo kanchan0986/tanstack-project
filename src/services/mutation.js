@@ -65,7 +65,7 @@ export const useCreateProjectMutation = () => {
             if(error) {
                 console.log(error.message)
             }else{
-                await queryClient.invalidateQueries(projectQueryKeyFactory.details())
+                await queryClient.invalidateQueries({queryKey: projectQueryKeyFactory.all, refetchType: 'active'})
             }
         }
     })
