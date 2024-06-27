@@ -6,9 +6,7 @@ import DeleteProjectButton from '../../components/DeleteProjectButton/DeleteProj
 
 export default function DeliveredProjectList() {
 
-  const pageNum = 1
-
-  const paginatedProjectListQuery = usePaginatedProjectListQuery(pageNum);
+  const paginatedProjectListQuery = usePaginatedProjectListQuery({pageNum: 1, limit: 0});
 
   const deliveredProjectListQuery = paginatedProjectListQuery.data?.filter(project => project.state === true)
 
@@ -18,11 +16,11 @@ export default function DeliveredProjectList() {
 
   const deliveredProjectList = deliveredProjectListQueries.data.map((project) => (
     <div key={project.id} className="list-container">
-      <Link to={`../${project.id}`} state={{pageNum}} className="list" >
+      <Link to={`../${project.id}`} className="list" >
         {project.name}
       </Link>
       <div className="todoList-actions project-list">
-        <Radio className='project-list' project={project}  pageNum={pageNum}/>
+        <Radio className='project-list' project={project}/>
         <DeleteProjectButton project={project} />
       </div>
     </div>

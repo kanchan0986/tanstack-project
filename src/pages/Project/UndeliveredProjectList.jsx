@@ -7,9 +7,7 @@ import ProjectCreationForm from '../../components/ProjectCreationForm/ProjectCre
 
 export default function UndeliveredProjectList() {
 
-  const pageNum = 1
-
-  const paginatedProjectListQuery = usePaginatedProjectListQuery(pageNum);
+  const paginatedProjectListQuery = usePaginatedProjectListQuery({pageNum: 1, limit: 100000 });
 
   const undeliveredProjectListQuery = paginatedProjectListQuery.data?.filter(project => project.state === false)
 
@@ -19,11 +17,11 @@ export default function UndeliveredProjectList() {
 
   const undeliveredProjectList = undeliveredProjectListQueries.data.map((project) => (
     <div key={project.id} className="list-container">
-      <Link to={`../${project.id}`} state={{pageNum}} className="list">
+      <Link to={`../${project.id}`} className="list">
         {project.name}
       </Link>
       <div className="todoList-actions project-list">
-        <Radio className='project-list' project={project} pageNum={pageNum}/>
+        <Radio className='project-list' project={project}/>
         <DeleteProjectButton project={project} />
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useProjectItemQuery } from '../../services/queries'
 import Radio from '../../components/Radio/Radio'
 import { Link } from 'react-router-dom'
@@ -10,8 +10,6 @@ export default function ProjectItem() {
   const params = useParams()
 
   const navigate = useNavigate()
-
-  const pageNum = useLocation().state.pageNum
 
   const deleteProjectMutation = useDeleteProjectMutation()
 
@@ -34,7 +32,7 @@ export default function ProjectItem() {
       <h3>Project Id: {projectItem.id}</h3>
       <div>
         <h3>Project State:</h3> 
-        <Radio project={projectItem} pageNum={pageNum} />            
+        <Radio project={projectItem}/>            
       </div>
       <div className='action-container'>
         <button className='submit project-delete' onClick={deleteProjectHandler}>{deleteProjectMutation.isPending ? 'Deleting...' : 'Delete Project'}</button>

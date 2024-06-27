@@ -3,7 +3,7 @@ import { useUpdateProjectMutation } from '../../services/mutation'
 
 export default function Radio(props) {
 
-    const {project, className, pageNum } = props
+    const {project, className } = props
 
     const [isDelivered, setIsDelivered] = useState(JSON.stringify(project.state))
     
@@ -11,7 +11,7 @@ export default function Radio(props) {
     
     const changeHandler = (event) => {
         setIsDelivered(event.target.value)
-        updateProjectMutation.mutate({project, labelId: event.target.id, pageNum: pageNum })
+        updateProjectMutation.mutate({project, labelId: event.target.id })
     }
 
 

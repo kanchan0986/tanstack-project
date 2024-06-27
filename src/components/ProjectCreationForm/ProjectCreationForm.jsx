@@ -20,7 +20,7 @@ export default function ProjectCreationForm(props) {
 
      const submitHandler = (event) => { 
         event.preventDefault();
-        createProjectItem.mutate( project)
+        createProjectItem.mutate(project)
         setProject({
             name: '',
             state: false

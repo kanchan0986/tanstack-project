@@ -9,7 +9,7 @@ export default function ProjectList() {
 
   const [pageNum, setPageNum] = useState(1)
 
-  const paginatedProjectListQuery = usePaginatedProjectListQuery(pageNum);
+  const paginatedProjectListQuery = usePaginatedProjectListQuery({pageNum, limit: 5 });
 
   if(paginatedProjectListQuery.isLoading) return <div>Loading...</div>
 
@@ -17,11 +17,11 @@ export default function ProjectList() {
 
   const projectList = paginatedProjectListQuery.data.map((project) => (
     <div key={project.id} className="list-container">
-      <Link to={`${project.id}`} state={{pageNum}} className="list">
+      <Link to={`${project.id}`} className="list">
         {project.name}
       </Link>
       <div className="todoList-actions project-list">
-        <Radio className='project-list' project={project} pageNum={pageNum} />
+        <Radio className='project-list' project={project} />
         <DeleteProjectButton project={project} />
       </div>
     </div>

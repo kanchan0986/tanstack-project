@@ -75,15 +75,15 @@ export const projectQueryKeyFactory = {
     details: () => [...projectQueryKeyFactory.all, 'details'],
     id: (id) => [...projectQueryKeyFactory.details(),  id ],    
     filter: () => [...projectQueryKeyFactory.all, 'filter'],
-    type: (pageNum) => [...projectQueryKeyFactory.filter(), { pageNum }],    
+    type: (pageNum, limit) => [...projectQueryKeyFactory.filter(), { pageNum }, { limit }],    
 }
 
 
 
-export const usePaginatedProjectListQuery = (pageNum = 1) => {
+export const usePaginatedProjectListQuery = ({pageNum, limit}) => {
     return useQuery({
-        queryKey: projectQueryKeyFactory.type(pageNum),
-        queryFn: () => getPaginatedProjectList(pageNum),
+        queryKey: projectQueryKeyFactory.type(pageNum, limit),
+        queryFn: () => getPaginatedProjectList(pageNum, limit),
         placeholderData: keepPreviousData,
         refetchOnMount: false
     })

@@ -75,7 +75,7 @@ export const useUpdateProjectMutation = () => {
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: ({project}) => updateProjectItem({...project, state: !project.state}),
-        onMutate: (variables) => ({labelId: variables.labelId, pageNum: variables.pageNum}),
+        onMutate: (variables) => ({labelId: variables.labelId}),
         onSettled: async (data, error, variables) => {
             if(error) {
                 console.log(error.message);
