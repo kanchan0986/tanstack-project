@@ -1,5 +1,5 @@
 import { keepPreviousData, useQueries, useQuery } from "@tanstack/react-query"
-import { getPaginatedProjectList, getProjectItem, getTodoItem, getTodoList } from "../api/api"
+import { getPaginatedProjectList, getProjectItem, getProjectList, getTodoItem, getTodoList } from "../api/api"
 
 
 /* -------------------------------------------------------------------------- */
@@ -80,6 +80,13 @@ export const projectQueryKeyFactory = {
 
 
 
+export const useProjectListQuery = () => {
+    return useQuery({
+        queryKey: projectQueryKeyFactory.details(),
+        queryFn: () => getProjectList(),
+    })
+}
+
 export const usePaginatedProjectListQuery = ({pageNum, limit}) => {
     return useQuery({
         queryKey: projectQueryKeyFactory.type(pageNum, limit),
@@ -93,6 +100,7 @@ export const useProjectItemQuery = (id) => {
         queryKey: projectQueryKeyFactory.id(id),
         queryFn: () => getProjectItem(id),
         refetchOnMount: false,
+        placeholderData: keepPreviousData
     })
 }
 

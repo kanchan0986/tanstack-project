@@ -363,5 +363,32 @@ html, body {
     font-size: 1.5rem;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                           Paginated Project Links                          */
+/* -------------------------------------------------------------------------- */
+
+
+.paginated-project-links {
+    display: flex;
+}
+
+.paginated-project-links .submit-link {
+    text-decoration: none;
+    background-color: blueviolet;
+    color: white;
+    padding: 0.4rem;
+    width: 10%;
+    text-transform: capitalize;
+    border: none;
+    font-family: inherit;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.paginated-project-links .submit-link:hover, .paginated-project-links .submit-link:active {
+    background-color: indigo;
+}
+
 
 

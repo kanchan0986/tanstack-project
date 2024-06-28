@@ -4,6 +4,7 @@ import { useProjectItemQuery } from '../../services/queries'
 import Radio from '../../components/Radio/Radio'
 import { Link } from 'react-router-dom'
 import { useDeleteProjectMutation } from '../../services/mutation'
+import PaginatedProjectLinks from './PaginatedProjectLinks'
 
 export default function ProjectItem() {
 
@@ -37,6 +38,7 @@ export default function ProjectItem() {
       <div className='action-container'>
         <button className='submit project-delete' onClick={deleteProjectHandler}>{deleteProjectMutation.isPending ? 'Deleting...' : 'Delete Project'}</button>
       </div>
+      <PaginatedProjectLinks projectItem={projectItem}/>
       <Link to='..'>Back</Link>
     </div>
   )
