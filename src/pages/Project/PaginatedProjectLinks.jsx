@@ -18,8 +18,8 @@ export default function PaginatedProjectLinks({ projectItem }) {
   return (
     <>
       <div className='paginated-project-links'>
-        <Link to={`../${previousProjectItem?.id}`} className='submit-link'>Prev</Link>
-        <Link to={nextProjectItem ? `../${nextProjectItem?.id}` : '.'} className='submit-link'>Next</Link>
+        <Link to={`../${previousProjectItem?.id}`} className={currentProjectIndex ? 'submit-link' : 'submit-link disabled'}>Prev</Link>
+        <Link to={nextProjectItem ? `../${nextProjectItem?.id}` : '.'} className={nextProjectItem ? 'submit-link' : 'submit-link disabled'}>Next</Link>
       </div>
       <div className='loader'>
         {isFetching && projectListQuery.isFetchedAfterMount ? <span>Loading.....</span> : <></>}

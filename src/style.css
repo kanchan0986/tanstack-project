@@ -390,5 +390,9 @@ html, body {
     background-color: indigo;
 }
 
+.paginated-project-links .submit-link.disabled {
+    background: rgb(143, 130, 152);
+    cursor: auto;
+}
 
 
