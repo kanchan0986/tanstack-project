@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { createProjectItem, createTodoItem, deleteProjectItem, deleteTodoItem, updateProjectItem, updateTodoItem } from "../api/api"
-import { projectQueryKeyFactory } from "./queries"
+import { projectQueryKeyFactory, todoQueryKeyFactory } from "./queries"
 
 
 /* -------------------------------------------------------------------------- */
@@ -15,7 +15,7 @@ export const useCreateTodoMutation = () => {
             if(error) {
                 return error.message
             }else{
-              await queryClient.setQueryData(['todos'], (oldData) => [...oldData, data])
+                await queryClient.invalidateQueries({queryKey: todoQueryKeyFactory.details()})
             }
         }
     })
@@ -30,8 +30,14 @@ export const useUpdateTodoMutation = () => {
             if(error) {
                 console.log(error.message)
             }else{
-                await queryClient.invalidateQueries({queryKey: ['todos'], exact: true})
-                await queryClient.invalidateQueries({queryKey: ['todos', { id: variables.id }], exact: true})
+                await queryClient.invalidateQueries({queryKey: todoQueryKeyFactory.details(), exact: true, refetchType: 'active'})
+                await queryClient.invalidateQueries({queryKey: todoQueryKeyFactory.readTodoDetails(), exact: true, refetchType: 'active'})
+                await queryClient.invalidateQueries({queryKey: todoQueryKeyFactory.unreadTodoDetails(), exact: true, refetchType: 'active'})
+                await queryClient.invalidateQueries({queryKey: todoQueryKeyFactory.id(variables.id), exact: true, refetchType: 'active'})
+                await queryClient.refetchQueries({queryKey: todoQueryKeyFactory.details(), exact: true, type: 'inactive'})
+                await queryClient.refetchQueries({queryKey: todoQueryKeyFactory.readTodoDetails(), exact: true, type: 'inactive'})
+                await queryClient.refetchQueries({queryKey: todoQueryKeyFactory.unreadTodoDetails(), exact: true, type: 'inactive'})
+                await queryClient.refetchQueries({queryKey: todoQueryKeyFactory.id(variables.id), exact: true, type: 'inactive'})
             }
         }
     })
@@ -45,7 +51,12 @@ export const useDeleteTodoMutation = () => {
             if(error){
                 console.log(error.message)
             }else{
-                await queryClient.invalidateQueries({queryKey: ['todos'], exact: true})
+                await queryClient.invalidateQueries({queryKey: todoQueryKeyFactory.details(), exact: true, refetchType: 'active'})
+                await queryClient.invalidateQueries({queryKey: todoQueryKeyFactory.readTodoDetails(), exact: true, refetchType: 'active'})
+                await queryClient.invalidateQueries({queryKey: todoQueryKeyFactory.unreadTodoDetails(), exact: true, refetchType: 'active'})
+                await queryClient.refetchQueries({queryKey: todoQueryKeyFactory.details(), exact: true, type: 'inactive'})
+                await queryClient.refetchQueries({queryKey: todoQueryKeyFactory.readTodoDetails(), exact: true, type: 'inactive'})
+                await queryClient.refetchQueries({queryKey: todoQueryKeyFactory.unreadTodoDetails(), exact: true, type: 'inactive'})
             }
         }
     })

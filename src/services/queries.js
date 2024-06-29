@@ -6,9 +6,20 @@ import { getPaginatedProjectList, getProjectItem, getProjectList, getTodoItem, g
 /*                                    Todos                                   */
 /* -------------------------------------------------------------------------- */
 
+
+export const todoQueryKeyFactory = {
+    all: ['todos'],
+    details: () => [...todoQueryKeyFactory.all, 'details'],
+    id: (id) => [...todoQueryKeyFactory.details(),  id ],   
+    readTodoDetails: () => [...todoQueryKeyFactory.details(), 'read-todo'],
+    readTodoId: (id) => [...todoQueryKeyFactory.readTodoDetails(),  id ],   
+    unreadTodoDetails: () => [...todoQueryKeyFactory.details(), 'unread-todo'],
+    unreadTodoId: (id) => [...todoQueryKeyFactory.unreadTodoDetails(),  id ],   
+}
+
 export const useTodoListQuery = () => {
     return useQuery({
-        queryKey: ['todos'],
+        queryKey: todoQueryKeyFactory.details(),
         queryFn: () => getTodoList(),
         refetchOnMount: false
     })
@@ -16,8 +27,9 @@ export const useTodoListQuery = () => {
 
 export const useTodoItemQuery = (id) => {
     return useQuery({
-        queryKey: ['todos', { id }],
-        queryFn: () => getTodoItem(id)
+        queryKey: todoQueryKeyFactory.id(id),
+        queryFn: () => getTodoItem(id),
+        refetchOnMount: false,
     })
 }
 
@@ -26,11 +38,9 @@ export const useTodoItemQuery = (id) => {
 export const useReadTodoListQueries = (readTodos) => {
     return useQueries({
         queries: (readTodos || []).map(readTodo => ({
-            queryKey: ['read-todo', { id: readTodo.id}],
+            queryKey: todoQueryKeyFactory.readTodoId(readTodo.id),
             queryFn: () => getTodoItem(readTodo.id),
-            enabled: !!readTodo.id,
             refetchOnMount: false,
-            placeholderData: keepPreviousData
         })),
         combine: (results) => {
             return (
@@ -46,11 +56,9 @@ export const useReadTodoListQueries = (readTodos) => {
 export const useUnreadTodoListQueries = (unreadTodos) => {
     return useQueries({
         queries: (unreadTodos || []).map(unredTodo => ({
-            queryKey: ['unread-todo', { id: unredTodo.id}],
+            queryKey: todoQueryKeyFactory.unreadTodoId(unredTodo.id),
             queryFn: () => getTodoItem(unredTodo.id),
-            enabled: !!unredTodo.id,
             refetchOnMount: false,
-            placeholderData: keepPreviousData
         })),
         combine: (results) => {
             return (
